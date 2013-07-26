@@ -11,6 +11,7 @@ echo "CREATE DATABASE dw_global" | mysql -uroot
 $LJHOME/bin/upgrading/update-db.pl -r
 $LJHOME/bin/upgrading/update-db.pl -r
 $LJHOME/bin/upgrading/update-db.pl -r -p
+$LJHOME/bin/upgrading/texttool.pl load
 
 # Copies over our configuration directory.
 rsync -avPW dw-docker/config/ local
