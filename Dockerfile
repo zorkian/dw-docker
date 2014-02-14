@@ -8,10 +8,8 @@ MAINTAINER Mark Smith "mark@dreamwidth.org"
 ENV LJHOME /dw
 
 # All this to bootstrap our initialization process so that we can use
-# apt-cacher-ng and not have to reload packages over and over and over...
-RUN apt-get update; apt-get -y install curl
-RUN curl https://raw.github.com/xb95/dw-docker/master/files/sources-local.list > /etc/apt/sources.list
-RUN apt-get update; apt-get -y install fish tmux screen vim snmpd git net-tools iputils-ping
+ADD files/sources.list /etc/apt/sources.list
+RUN apt-get update; apt-get -y install curl fish tmux screen vim snmpd git net-tools iputils-ping
 
 # We pull down the configuration build repository, which will ultimately do
 # most of the work for us. We just need Docker to manage the layers and saving
@@ -41,9 +39,6 @@ ADD scripts/setup-dw.sh /opt/
 RUN /usr/bin/mysqld_safe & \
     sleep 5s && \
     bash /opt/setup-dw.sh
-
-# Reset the APT configuration.
-RUN cp $LJHOME/ext/dw-docker/files/sources.list /etc/apt/sources.list; apt-get update
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
