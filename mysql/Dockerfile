@@ -10,9 +10,9 @@ RUN echo "Etc/UTC" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
 RUN apt-get update
 RUN apt-get install -y mysql-server
 
-ADD scripts/startup.sh /opt/startup.sh
+ADD scripts/ /opt/
 ADD config/my.cnf /etc/mysql/my.cnf
 
 EXPOSE 3306
 
-ENTRYPOINT ["/opt/startup.sh"]
+ENTRYPOINT ["/usr/sbin/mysqld"]
