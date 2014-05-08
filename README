@@ -1,2 +1,24 @@
-docker build -t dreamwidth/apache .
-docker run  --rm --name dw --entrypoint "/bin/bash" -t -i --link mysql_db:db dreamwidth/apache -i
+# Setup
+## Set up a persistent data container `mysql-data`
+    docker build -t dreamwidth/mysql-data mysql-data
+    docker run -d --name mysql-data dreamwidth/mysql-data
+
+## Use `mysql-data` from `mysql-db`
+    docker build -t dreamwidth/mysql mysql
+    docker run -d --name mysql-db --volumes-from mysql-data dreamwidth/mysql
+
+## Setup Dreamwidth container
+    docker build -t dreamwidth/web dreamwidth
+    docker run --entrypoint "/bin/bash" -t -i --link mysql-db:db dreamwidth/web -i
+    # and then run /opt/init-db.sh if we haven't run any dw containers yet
+
+# Start the Dreamwidth web server
+    docker run  -d --name web -t -i --link mysql-db:db -p 80  dreamwidth/web
+
+# Testing
+## Connect to mysql from a test container
+    docker run  --entrypoint "/bin/bash" -t -i --link mysql-db:db dreamwidth/mysql
+    mysql -uroot -h $DB_PORT_3306_TCP_ADDR -P $DB_PORT_3306_TCP_PORT
+
+## Poke around the container's filesystem
+    docker run -i -t --entrypoint "/bin/bash" --volumes-from mysql-data dreamwidth/mysql
