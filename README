@@ -1,0 +1,2 @@
+docker build -t dreamwidth/apache .
+docker run  --rm --name dw --entrypoint "/bin/bash" -t -i --link mysql_db:db dreamwidth/apache -i

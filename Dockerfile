@@ -33,12 +33,11 @@ RUN apt-get update; apt-get -y install libapreq2-dev apache2-mpm-prefork libapac
 RUN curl -L http://cpanmin.us | perl - App::cpanminus
 RUN cpanm -n -L $LJHOME/extlib/ DateTime::TimeZone Business::CreditCard Cache::Memcached Captcha::reCAPTCHA Class::Accessor Class::Autouse Class::Data::Inheritable Class::Trigger Danga::Socket Data::ObjectDriver DateTime Digest::HMAC_SHA1 Digest::SHA1 Digest::SHA256 File::Type GTop Gearman::Client GnuPG::Interface Hash::MultiValue IO::AIO IO::WrapTie IP::Country::Fast Image::Size LWPx::ParanoidAgent MIME::Lite MIME::Words Mail::GnuPG MogileFS::Client Net::DNS Net::PubSubHubbub::Publisher Proc::ProcessTable RPC::XML SOAP::Lite String::CRC32 Sys::Syscall Template Text::Markdown Text::vCard TheSchwartz TheSchwartz::Worker::PubSubHubbubPublish TheSchwartz::Worker::SendEmail URI::Fetch Unicode::CheckUTF8 Unicode::MapUTF8 XML::Atom XML::RSS XMLRPC::Lite YAML MogileFS::Server MogileFS::Utils Gearman::Server Image::ExifTool
 
-ADD scripts/setup-dw.sh /opt/
+ADD scripts/ /opt/
+ADD config/ /dw/ext/local
 
-# Now that we have the base setup, kick off the DW configuration.
-RUN /usr/bin/mysqld_safe & \
-    sleep 5s && \
-    bash /opt/setup-dw.sh
+# setup configs
+RUN bash /opt/setup-config.sh
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
@@ -46,5 +45,4 @@ ENV APACHE_LOG_DIR /var/log/apache2
 
 EXPOSE 80
 
-ADD scripts/startup.sh /opt/startup.sh
 ENTRYPOINT ["/opt/startup.sh"]

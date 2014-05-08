@@ -14,8 +14,8 @@
     # database info.  only the master is necessary.
     %DBINFO = (
                'master' => {  # master must be named 'master'
-                   'host' => "localhost",
-                   'port' => 3306,
+                   'host' => $ENV{DB_PORT_3306_TCP_ADDR},
+                   'port' => $ENV{DB_PORT_3306_TCP_PORT},
                    'user' => 'root',
                    'pass' => '',    # CHANGETHIS
                    'dbname' => 'dw_global',
@@ -45,7 +45,7 @@
     # Schwartz DB configuration
     @THESCHWARTZ_DBS = (
             {
-                dsn => 'dbi:mysql:dw_schwartz;host=localhost',
+                dsn =>"dbi:mysql:dw_schwartz;host=$ENV{DB_PORT_3306_TCP_ADDR}",
                 user => 'root',
                 pass => '',     # CHANGETHIS
             },
