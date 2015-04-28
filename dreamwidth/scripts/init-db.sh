@@ -8,7 +8,7 @@ fi
 
 # Database setup and configuration
 echo "CREATE DATABASE dw_schwartz" | $MYSQL_COMMAND
-cat $LJHOME/ext/dw-docker/files/theschwartz-schema.sql | $MYSQL_COMMAND dw_schwartz
+cat /dw-docker/dreamwidth/files/theschwartz-schema.sql | $MYSQL_COMMAND dw_schwartz
 
 echo "CREATE DATABASE dw_global" | $MYSQL_COMMAND
 $LJHOME/bin/upgrading/update-db.pl -r --innodb
