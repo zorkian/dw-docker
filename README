@@ -1,35 +1,48 @@
 # Setup
-## Set up a persistent data container `mysql-data`
-    docker build -t dreamwidth/mysql-data mysql-data
-    docker run -d --name mysql-data dreamwidth/mysql-data
-
-## Set up mysql container
+## Set up mysql containers and Dreamwidth container
+    docker run -d --name mysql-data -v /var/lib/mysql -v /var/log/mysql busybox /bin/true
     docker build -t dreamwidth/mysql mysql
-    docker run --entrypoint "/bin/bash" -t -i --volumes-from mysql-data dreamwidth/mysql -i
-    # and then run /opt/init-db.sh if we haven't run the mysql container yet
 
-## Start mysql (need to do this before setting up Dreamwidth container)
-    docker run -d --name mysql-db --volumes-from mysql-data dreamwidth/mysql
-
-## Set up persistent logs container `web-logs`
-    docker build -t dreamwidth/web-logs dreamwidth-logs
-    docker run -d --name web-logs dreamwidth/web-logs
-
-## Set up Dreamwidth container
     docker build -t dreamwidth/web dreamwidth
-    docker run --entrypoint "/bin/bash" -t -i --link mysql-db:db dreamwidth/web -i
-    # and then run /opt/init-db.sh if we haven't run any dw containers yet
+
+## Start mysql
+## Change the password! (Note: it's only used here once; everywhere else refers to it using passwords)
+    docker run --name mysql-db --volumes-from mysql-data -e MYSQL_ROOT_PASSWORD=mysecretpassword -d dreamwidth/mysql
+
+## (FIRST RUN) Setup database
+    docker run --entrypoint "/bin/bash" -it --link mysql-db:db --rm dreamwidth/web
+    > /opt/init-db.sh
 
 ## Start Dreamwidth web server
-    docker run  -d --name web -t -i --link mysql-db:db --volumes-from web-logs -p 80  dreamwidth/web
+    ### -d : detach and run in background
+    ### --name dw-web : create an easy-to-remember consistent way to refer to this container
+    ### --link mysql-db:db : use the mysql database container you created above
+    ### -p 80:80 : expose port 80 publicly
+    ### dreamidth/web : the container name we should use
+    docker run -d --name dw-web -it --link mysql-db:db -p 80:80 dreamwidth/web
+
+# Normal operations
+## Run
+    docker start mysql-db dw-web
+
+## Stop
+    docker stop mysql-db dw-web
+
+## Connecting to your webserver
+    curl 127.0.0.1             # not mac
+    curl `boot2docker ip`      # mac
 
 # Testing
 ## Connect to mysql from a test container
-    docker run  --entrypoint "/bin/bash" -t -i --link mysql-db:db dreamwidth/mysql
-    mysql -uroot -h $DB_PORT_3306_TCP_ADDR -P $DB_PORT_3306_TCP_PORT
+    docker run --entrypoint "/bin/bash" -v $LJHOME:/dw -it --link mysql-db:db --rm dreamwidth/web
+    mysql -uroot -h $DB_PORT_3306_TCP_ADDR -P $DB_PORT_3306_TCP_PORT -p$DB_ENV_MYSQL_ROOT_PASSWORD
 
-## Poke around the container's filesystem
-    docker run -i -t --entrypoint "/bin/bash" --volumes-from mysql-data dreamwidth/mysql
+## attach to dreamwidth web and look around
+    docker attach dw-web
+    (then hit enter)
+
+## detach
+    (ctrl+p, ctrl+q)
 
 ## Look at the webserver logs
-    docker run -i -t --entrypoint "tail" --volumes-from web-logs busybox /var/log/apache2/error.log
+    docker exec dw-web tail /var/log/apache2/error.log

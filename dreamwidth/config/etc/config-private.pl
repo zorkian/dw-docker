@@ -1,12 +1,9 @@
 #!/usr/bin/perl
 
-# Dreamwidth configuration file.  Copy this out of the documentation
-# directory to etc/config-private.pl and edit as necessary.  The reason
-# it's not in the etc directory already is to protect it from
-# getting clobbered when you upgrade to the newest Dreamwidth code in
-# the future.
-#
-# This is where you define private, site-specific configs (e.g. passwords).
+# Dreamwidth configuration file for use within docker.
+# This is for private, site-specific configs (e.g. passwords),
+# that are read from the Docker environment.
+# Normal configuration should go in your $LJHOME/ext/local/etc directory
 
 {
     package LJ;
@@ -17,7 +14,7 @@
                    'host' => $ENV{DB_PORT_3306_TCP_ADDR},
                    'port' => $ENV{DB_PORT_3306_TCP_PORT},
                    'user' => 'root',
-                   'pass' => '',    # CHANGETHIS
+                   'pass' => $ENV{DB_ENV_MYSQL_ROOT_PASSWORD},
                    'dbname' => 'dw_global',
                    'role' => {
                        'cluster1' => 1,
@@ -47,7 +44,7 @@
             {
                 dsn =>"dbi:mysql:dw_schwartz;host=$ENV{DB_PORT_3306_TCP_ADDR}",
                 user => 'root',
-                pass => '',     # CHANGETHIS
+                pass => $ENV{DB_ENV_MYSQL_ROOT_PASSWORD},
             },
         );
 
