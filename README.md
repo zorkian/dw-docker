@@ -6,27 +6,29 @@
     docker build -t dreamwidth/web dreamwidth
 
 ## Start mysql
-## Change the password! (Note: it's only used here once; everywhere else refers to it using passwords)
+Change the password! Note: it's only used here once; everywhere else refers to it using passwords
+
     docker run --name mysql-db --volumes-from mysql-data -e MYSQL_ROOT_PASSWORD=mysecretpassword -d dreamwidth/mysql
 
+
 ## (FIRST RUN) Setup repo
-    (fork repository on Github)
-    (clone repository onto your computer)
-    (set your LJHOME variable to where your repository was cloned)
+* Fork repository on Github
+* Clone repository onto your computer
+* Set your LJHOME variable to where your repository was cloned
 
 ## (FIRST RUN) Setup database
     docker run --entrypoint "/bin/bash" -it -v $LJHOME:/dw --link mysql-db:db --rm dreamwidth/web
     > /opt/init-db.sh
 
 ## Start Dreamwidth web server
-    * -d : detach and run in background
-    * --name dw-web : create an easy-to-remember consistent way to refer to this container
-    * -v $LJHOME:/dw : take your repository code (in $LJHOME) and run it inside the container.
+    # -d : detach and run in background
+    # --name dw-web : create an easy-to-remember consistent way to refer to this container
+    # -v $LJHOME:/dw : take your repository code (in $LJHOME) and run it inside the container.
                        Any changes you make to files will be reflected immediately.
                        Note: this overrides your config-private.pl to use the docker-specific DB settings
-    * --link mysql-db:db : use the mysql database container you created above
-    * -p 80:80 : expose port 80 publicly
-    * dreamwidth/web : the container name we should use
+    # --link mysql-db:db : use the mysql database container you created above
+    # -p 80:80 : expose port 80 publicly
+    # dreamwidth/web : the container name we should use
 
     docker run -d --name dw-web -v $LJHOME:/dw -it --link mysql-db:db -p 80:80 dreamwidth/web
 
@@ -46,12 +48,13 @@
     docker run --entrypoint "/bin/bash" -v $LJHOME:/dw -it --link mysql-db:db --rm dreamwidth/web
     mysql -uroot -h $DB_PORT_3306_TCP_ADDR -P $DB_PORT_3306_TCP_PORT -p$DB_ENV_MYSQL_ROOT_PASSWORD
 
-## attach to dreamwidth web and look around
-    docker attach dw-web
-    (commandline prompt doesn't show for the first line, but it's active)
+## Attach to dreamwidth web and look around
+Commandline prompt doesn't show for the first line, but it's active
 
-## detach
-    (ctrl+p, ctrl+q)
+    docker attach dw-web
+
+## Detach
+Ctrl+p, Ctrl+q
 
 ## Look at the webserver logs
     docker exec dw-web tail /var/log/apache2/error.log
