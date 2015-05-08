@@ -1,7 +1,7 @@
 # This creates a Dreamwidth development installation.
 #
 
-FROM       ubuntu:12.04
+FROM       ubuntu:14.04
 MAINTAINER Mark Smith "mark@dreamwidth.org"
 
 # Configuration can go here.
