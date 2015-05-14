@@ -26,7 +26,7 @@ RUN curl http://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
 
 # Continue installing packages. This is done in two steps because we need
 # curl to get the Varnish key, so we had to do that first.
-RUN apt-get update; apt-get -y install libapreq2-dev apache2-mpm-prefork libapache2-mod-perl2-dev libxml2-dev libgdbm-dev apache2-prefork-dev perlmagick libgtop2-dev libpari-dev libmath-gmp-perl libmath-bigint-perl libmath-bigint-gmp-perl libperl-dev libapache2-request-perl libcrypt-dh-gmp-perl libnet-openid-consumer-perl libnet-openid-server-perl libgd-gd2-perl libgd-graph-perl libdbd-mysql-perl percona-server-client-5.5 perl-doc varnish make libcrypt-dh-perl nginx
+RUN apt-get update; apt-get -y install libapreq2-dev apache2-mpm-prefork libapache2-mod-perl2-dev libxml2-dev libgdbm-dev apache2-prefork-dev perlmagick libgtop2-dev libpari-dev libmath-gmp-perl libmath-bigint-perl libmath-bigint-gmp-perl libperl-dev libapache2-request-perl libcrypt-dh-gmp-perl libnet-openid-consumer-perl libnet-openid-server-perl libgd-gd2-perl libgd-graph-perl libdbd-mysql-perl percona-server-client-5.5 perl-doc varnish make libcrypt-dh-perl
 
 # Set up cpanm and then the modules that Dreamwidth wants.
 RUN curl -L http://cpanmin.us | perl - App::cpanminus

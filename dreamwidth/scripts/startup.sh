@@ -7,5 +7,4 @@ if [[ ! -L $LJHOME/extlib ]]; then
     ln -s /extlib $LJHOME/extlib
 fi
 
-service nginx start
 /usr/sbin/apache2ctl start
