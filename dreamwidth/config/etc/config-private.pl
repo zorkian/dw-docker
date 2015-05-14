@@ -35,5 +35,7 @@
                 pass => $ENV{DB_ENV_MYSQL_ROOT_PASSWORD},
             },
         );
+
+    $DOMAIN = "hack.dw";
 }
 1;

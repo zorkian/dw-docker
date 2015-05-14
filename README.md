@@ -29,6 +29,7 @@ This is not exposed until we run the nginx server below.
     # -v $LJHOME:/dw : take your repository code (in $LJHOME) and run it inside the container.
                        Any changes you make to files will be reflected immediately.
                        Note: this overrides your config-private.pl to use the docker-specific DB settings
+                       See Configuration section below
     # --link mysql-db:db : use the mysql database container you created above
     # dreamwidth/web : the container name we should use
 
@@ -67,3 +68,25 @@ Ctrl+p, Ctrl+q
 
 ## Look at the webserver logs
     docker exec dw-web tail /var/log/apache2/error.log
+
+
+# Configuration
+The containers will handle connecting between the various containers.
+
+Settings you SHOULD NOT define:
+
+    @LJ::DBINFO, @LJ::THESCHWARTZ_DBS, $LJ::DOMAIN
+
+You'll also want to add `hack.dw`, to your `/etc/hosts` file. Example:
+
+    # standard entries
+    127.0.0.1 hack.dw www.hack.dw system.hack.dw
+
+    # services
+    127.0.0.1 proxy.hack.dw
+
+    # your test user accounts
+    127.0.0.1 testuser.hack.dw some-community.hack.dw
+
+
+If you're on a Mac, use the result of `boot2docker ip` instead of `127.0.0.1`.
