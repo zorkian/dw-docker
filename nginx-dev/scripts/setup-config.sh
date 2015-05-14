@@ -5,4 +5,4 @@
 
 # Now replace nginx configuration with our own
 rm /etc/nginx/conf.d/default.conf
-ln -s /dw-config/dw.conf /etc/nginx/conf.d/dw.conf
+ln -s /dw-config/*.conf /etc/nginx/conf.d/
