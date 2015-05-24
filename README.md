@@ -42,6 +42,23 @@ This runs in front of the Apache server and handles serving up static files and 
 
     docker run -d --name dw-nginx -v $LJHOME:/dw:ro -it --link dw-web:web -p 80:80 -p 443:443 dreamwidth/nginx-dev
 
+
+## Optional containers:
+### proxy
+
+    docker build -t dreamwidth/proxy proxy
+    docker run -d --name dw-proxy -v $LJHOME/ext/local/etc/proxy-salt:/proxy-salt -it dreamwidth/proxy
+
+If you're making changes to the proxy code, you'll want to override the code in `/dw` as well:
+
+    docker run -d --name dw-proxy -v $LJHOME:/dw -v $LJHOME/ext/local/etc/proxy-salt:/proxy-salt --entrypoint "/opt/custom-build.sh" -it dreamwidth/proxy
+
+Running dw-nginx also needs an additional `--link dw-proxy:proxy`:
+
+    docker run -d --name dw-nginx -v $LJHOME:/dw:ro -it --link dw-proxy:proxy --link dw-web:web -p 80:80 -p 443:443 dreamwidth/nginx-dev
+
+Wiki has additional information for [proxy setup](http://wiki.dreamwidth.net/wiki/index.php/Proxy).
+
 # Normal operations
 ## Run
     docker start mysql-db dw-web dw-nginx
