@@ -57,6 +57,8 @@ Running dw-nginx also needs an additional `--link dw-proxy:proxy`:
 
     docker run -d --name dw-nginx -v $LJHOME:/dw:ro -it --link dw-proxy:proxy --link dw-web:web -p 80:80 -p 443:443 dreamwidth/nginx-dev
 
+Wiki has additional information for [proxy setup](http://wiki.dreamwidth.net/wiki/index.php/Proxy).
+
 # Normal operations
 ## Run
     docker start mysql-db dw-web dw-nginx
