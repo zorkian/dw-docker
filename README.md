@@ -3,8 +3,8 @@
     docker run -d --name mysql-data -v /var/lib/mysql -v /var/log/mysql busybox /bin/true
     docker build -t dreamwidth/mysql mysql
 
-    docker build -t dreamwidth/web dreamwidth
-    docker build -t dreamwidth/nginx-dev nginx-dev
+    docker build -t dreamwidth/web web
+    docker build -t dreamwidth/nginx nginx
 
 ## Start mysql
 Change the password! Note: it's only used here once; everywhere else refers to it using passwords
