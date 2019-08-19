@@ -14,7 +14,8 @@ ENV LJHOME /dw
 
 # Actually check out the source code now.
 RUN git -C $LJHOME fetch && \
-    git -C $LJHOME checkout $COMMIT
+    git -C $LJHOME checkout $COMMIT && \
+    $LJHOME/bin/build-static.sh
 
 # Copy in support scripts/configurations that are useful.
 ADD scripts/ /opt/

@@ -18,7 +18,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # All this to bootstrap our initialization process so that we can use
 RUN apt-get update && \
     apt-get -y install apt-transport-https && \
-    apt-get -y install curl git cpanminus tzdata && \
+    apt-get -y install curl git cpanminus tzdata rsync && \
     bash -c 'echo "Etc/UTC" > /etc/timezone' && \
     dpkg-reconfigure -f noninteractive tzdata && \
     curl https://raw.githubusercontent.com/dreamwidth/dw-free/master/doc/dependencies-system | \
@@ -33,5 +33,8 @@ RUN mv $LJHOME/extlib /dw-extlib && \
     rmdir $LJHOME && \
     git clone https://github.com/dreamwidth/dw-free.git $LJHOME && \
     mv /dw-extlib $LJHOME/extlib && \
-    git -C $LJHOME checkout $COMMIT
+    git -C $LJHOME checkout $COMMIT && \
+    mkdir $LJHOME/ext/yuicompressor/ && \
+    curl -s -L --output $LJHOME/ext/yuicompressor/yuicompressor.jar \
+        https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar
 
