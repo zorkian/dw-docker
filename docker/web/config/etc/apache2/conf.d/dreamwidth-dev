@@ -12,8 +12,4 @@ DocumentRoot /dw/htdocs
 PerlSetEnv  LJHOME /dw
 PerlPassEnv LJHOME
 
-PerlPassEnv DB_PORT_3306_TCP_ADDR
-PerlPassEnv DB_PORT_3306_TCP_PORT
-PerlPassEnv DB_ENV_MYSQL_ROOT_PASSWORD
-
 PerlRequire  /dw/cgi-bin/modperl.pl
