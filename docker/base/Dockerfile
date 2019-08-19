@@ -18,14 +18,14 @@ ENV DEBIAN_FRONTEND noninteractive
 # All this to bootstrap our initialization process so that we can use
 RUN apt-get update && \
     apt-get -y install apt-transport-https && \
-    apt-get -y install curl fish tmux screen vim snmpd git net-tools \
-               iputils-ping git cpanminus curl libssl-dev tzdata && \
+    apt-get -y install curl git cpanminus tzdata && \
     bash -c 'echo "Etc/UTC" > /etc/timezone' && \
     dpkg-reconfigure -f noninteractive tzdata && \
     curl https://raw.githubusercontent.com/dreamwidth/dw-free/master/doc/dependencies-system | \
         xargs apt-get -y install && \
     curl https://raw.githubusercontent.com/dreamwidth/dw-free/master/doc/dependencies-cpanm | \
         xargs cpanm -n -L /dw/extlib/ && \
+    rm -rf /root/.cpanm && \
     rm -rf /var/lib/apt/lists/*
 
 # Actually check out the source code now.

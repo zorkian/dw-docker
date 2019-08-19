@@ -11,7 +11,6 @@ ENV COMMIT master
 
 # Things that commands need, but shouldn't change.
 ENV LJHOME /dw
-ENV DEBIAN_FRONTEND noninteractive
 
 # Actually check out the source code now.
 RUN git -C $LJHOME fetch && \
