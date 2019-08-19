@@ -1,10 +1,9 @@
 #!/bin/bash
-if [[ ! -L $LJHOME/ext/__local ]]; then
-    ln -s /dw-config $LJHOME/ext/__local
-fi
 
-if [[ ! -L $LJHOME/extlib ]]; then
-    ln -s /extlib $LJHOME/extlib
-fi
+set -xe
 
-/usr/sbin/apache2ctl start
+# Validate that the system is set up and working correctly.
+# perl -I$LJHOME/extlib/ $LJHOME/bin/checkconfig.pl
+
+# Kick off Apache
+/usr/sbin/apache2ctl -DFOREGROUND

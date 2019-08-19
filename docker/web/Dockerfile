@@ -32,4 +32,4 @@ EXPOSE 80
 
 # Kick off the startup script, which does some healthcheck and then starts
 # Apache if things look good.
-CMD bash -C '/opt/startup.sh';'bash'
+CMD bash /opt/startup.sh
