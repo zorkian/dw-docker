@@ -12,6 +12,11 @@ ENV COMMIT master
 # Things that commands need, but shouldn't change.
 ENV LJHOME /dw
 
+# Install some packages we need in web only.
+RUN apt-get update && \
+    apt-get install -y mysql-client && \
+    rm -rf /var/lib/apt/lists/*
+
 # Actually check out the source code now.
 RUN git -C $LJHOME fetch && \
     git -C $LJHOME checkout $COMMIT && \
@@ -25,10 +30,7 @@ ADD config/ /dw/ext/local
 # last minute configuration.
 RUN bash /opt/setup.sh
 
-# ENV APACHE_RUN_USER www-data
-# ENV APACHE_RUN_GROUP www-data
-# ENV APACHE_LOG_DIR /var/log/apache2
-
+# We run on 80, TLS is handled by a proxy of some kind.
 EXPOSE 80
 
 # Kick off the startup script, which does some healthcheck and then starts
