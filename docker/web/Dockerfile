@@ -6,8 +6,7 @@ FROM       dreamwidth/base
 MAINTAINER Mark Smith "mark@dreamwidth.org"
 
 # Configuration can go here.
-# ARG COMMIT=master
-ENV COMMIT master
+ARG COMMIT=master
 
 # Things that commands need, but shouldn't change.
 ENV LJHOME /dw
