@@ -17,8 +17,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # All this to bootstrap our initialization process so that we can use
 RUN apt-get update && \
-    apt-get -y install apt-transport-https && \
-    apt-get -y install curl git cpanminus tzdata rsync && \
+    apt-get install -y apt-transport-https && \
+    apt-get install -y curl git cpanminus tzdata rsync && \
     bash -c 'echo "Etc/UTC" > /etc/timezone' && \
     dpkg-reconfigure -f noninteractive tzdata && \
     curl https://raw.githubusercontent.com/dreamwidth/dw-free/master/doc/dependencies-system | \

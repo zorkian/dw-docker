@@ -15,6 +15,10 @@ ENV LJHOME /dw
 # Install some packages we need in web only.
 RUN apt-get update && \
     apt-get install -y mysql-client && \
+    curl https://raw.githubusercontent.com/dreamwidth/dw-free/master/doc/dependencies-system | \
+        xargs apt-get -y install && \
+    curl https://raw.githubusercontent.com/dreamwidth/dw-free/master/doc/dependencies-cpanm | \
+        xargs cpanm -n -L /dw/extlib/ && \
     rm -rf /var/lib/apt/lists/*
 
 # Actually check out the source code now.
@@ -35,4 +39,4 @@ EXPOSE 80
 
 # Kick off the startup script, which does some healthcheck and then starts
 # Apache if things look good.
-CMD bash /opt/startup.sh
+CMD bash /opt/startup-prod.sh
