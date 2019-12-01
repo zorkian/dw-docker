@@ -5,7 +5,7 @@
 # Configuration can go here.
 ARG COMMIT=master
 
-FROM       dreamwidth/base:$COMMIT
+FROM       dreamwidth/base:latest
 MAINTAINER Mark Smith "mark@dreamwidth.org"
 
 # Things that commands need, but shouldn't change.

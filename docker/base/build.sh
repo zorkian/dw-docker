@@ -21,6 +21,7 @@ sudo docker push 194396987458.dkr.ecr.us-east-1.amazonaws.com/dreamwidth/base:$C
 
 # If it's latest, do that too.
 if [ "$MAKE_LATEST" == "--make-latest" ]; then
+    sudo docker tag dreamwidth/base:$COMMIT dreamwidth/base:latest
     sudo docker tag dreamwidth/base:$COMMIT 194396987458.dkr.ecr.us-east-1.amazonaws.com/dreamwidth/base:latest
     sudo docker push 194396987458.dkr.ecr.us-east-1.amazonaws.com/dreamwidth/base:latest
 fi
