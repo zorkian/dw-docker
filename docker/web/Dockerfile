@@ -23,6 +23,8 @@ RUN apt-get update && \
 # Actually check out the source code now.
 RUN git -C $LJHOME fetch && \
     git -C $LJHOME checkout $COMMIT && \
+    git -C $LJHOME/ext/dw-nonfree fetch && \
+    git -C $LJHOME/ext/dw-nonfree checkout master && \
     $LJHOME/bin/build-static.sh
 
 # Copy in support scripts/configurations that are useful.

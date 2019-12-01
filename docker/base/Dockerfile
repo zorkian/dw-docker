@@ -8,8 +8,7 @@ FROM       ubuntu:18.04
 MAINTAINER Mark Smith "mark@dreamwidth.org"
 
 # Configuration can go here.
-# ARG COMMIT=master
-ENV COMMIT master
+ARG COMMIT=master
 
 # Things that commands need, but shouldn't change.
 ENV LJHOME /dw
@@ -36,5 +35,6 @@ RUN mv $LJHOME/extlib /dw-extlib && \
     git -C $LJHOME checkout $COMMIT && \
     mkdir $LJHOME/ext/yuicompressor/ && \
     curl -s -L --output $LJHOME/ext/yuicompressor/yuicompressor.jar \
-        https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar
-
+        https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar && \
+    git clone https://github.com/dreamwidth/dw-nonfree.git $LJHOME/ext/dw-nonfree && \
+    git -C $LJHOME/ext/dw-nonfree checkout master
