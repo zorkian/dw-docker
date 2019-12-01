@@ -2,11 +2,11 @@
 # This creates a Dreamwidth webserver.
 #
 
-FROM       dreamwidth/base
-MAINTAINER Mark Smith "mark@dreamwidth.org"
-
 # Configuration can go here.
 ARG COMMIT=master
+
+FROM       dreamwidth/base:$COMMIT
+MAINTAINER Mark Smith "mark@dreamwidth.org"
 
 # Things that commands need, but shouldn't change.
 ENV LJHOME /dw
