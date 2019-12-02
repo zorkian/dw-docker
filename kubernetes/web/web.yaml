@@ -7,8 +7,6 @@ spec:
   selector:
     matchLabels:
       app: web
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -19,17 +17,17 @@ spec:
         name: web
         resources:
           requests:
-            cpu: "1"
-            memory: "3500M"
+            cpu: 1
+            memory: 3500M
           limits:
-            cpu: "1"
-            memory: "3500M"
+            cpu: 1
+            memory: 3500M
         ports:
         - containerPort: 80
           name: web
         volumeMounts:
         - name: config
-          mountPath: "/dw/etc"
+          mountPath: /dw/etc
           readOnly: true
       volumes:
       - name: config
