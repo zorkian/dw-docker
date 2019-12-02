@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: worker-esn-process-sub
+  name: worker-esn-filter-subs
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
-      app: worker-esn-process-sub
+      app: worker-esn-filter-subs
   template:
     metadata:
       labels:
-        app: worker-esn-process-sub
+        app: worker-esn-filter-subs
     spec:
       containers:
       - image: 194396987458.dkr.ecr.us-east-1.amazonaws.com/dreamwidth/worker:latest
-        name: worker-esn-process-sub
+        name: worker-esn-filter-subs
         command: ["bash"]
-        args: ["/opt/startup-prod.sh", "bin/worker/esn-process-sub"]
+        args: ["/opt/startup-prod.sh", "bin/worker/esn-filter-subs"]
         resources:
           requests:
             cpu: 300m
@@ -33,14 +33,14 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: worker-esn-process-sub
+  name: worker-esn-filter-subs
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: worker-esn-process-sub
-  minReplicas: 5
-  maxReplicas: 60
+    name: worker-esn-filter-subs
+  minReplicas: 3
+  maxReplicas: 10
   metrics:
   - type: Resource
     resource:

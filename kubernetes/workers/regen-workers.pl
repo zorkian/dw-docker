@@ -5,7 +5,11 @@ use v5.10;
 
 my %workers = (
     # Name                MinCt, MaxCt, Memory, MilliCpu, TgtCpu
-    'esn-process-sub' => [    5,    60,  '300M',  '500m',    70  ],
+    'esn-cluster-subs' => [    5,    15,  '300M',  '100m',   100  ],
+    'esn-filter-subs'  => [    3,    10,  '300M',  '300m',   100  ],
+    'esn-fired-event'  => [    5,    15,  '300M',  '100m',   100  ],
+    'esn-process-sub'  => [    5,    60,  '300M',  '300m',   100  ],
+    'send-email-ses'   => [    5,   150,  '300M',  '100m',   100  ],
 );
 
 my $template;
